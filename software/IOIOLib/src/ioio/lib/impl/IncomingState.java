@@ -454,22 +454,6 @@ class IncomingState implements IncomingHandler {
 		icspState_.dataReceived(data, size);
 	}
 
-	@Override
-	public void handleCapSenseReport(int pinNum, int value) {
-		// logMethod("handleCapSenseReport", pinNum, value);
-		intputPinStates_[pinNum].setValue(value);
-	}
-	
-	@Override
-	public void handleSetCapSenseSampling(int pinNum, boolean enable) {
-		// logMethod("handleSetCapSenseSampling", pinNum, enable);
-		if (enable) {
-			intputPinStates_[pinNum].openNextListener();
-		} else {
-			intputPinStates_[pinNum].closeCurrentListener();
-		}
-	}
-	
 	private void checkNotDisconnected() throws ConnectionLostException {
 		if (connection_ == ConnectionState.DISCONNECTED) {
 			throw new ConnectionLostException();

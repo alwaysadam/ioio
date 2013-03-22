@@ -29,7 +29,6 @@
 package ioio.lib.impl;
 
 import ioio.lib.api.AnalogInput;
-import ioio.lib.api.CapSense;
 import ioio.lib.api.DigitalInput;
 import ioio.lib.api.DigitalInput.Spec;
 import ioio.lib.api.DigitalInput.Spec.Mode;
@@ -58,7 +57,7 @@ public class IOIOImpl implements IOIO, DisconnectListener {
 	private boolean disconnect_ = false;
 
 	private static final byte[] REQUIRED_INTERFACE_ID = new byte[] { 'I', 'O',
-			'I', 'O', '0', '0', '0', '4' };
+			'I', 'O', '0', '0', '0', '3' };
 
 	private IOIOConnection connection_;
 	private IncomingState incomingState_ = new IncomingState();
@@ -330,7 +329,7 @@ public class IOIOImpl implements IOIO, DisconnectListener {
 		case APP_FIRMWARE_VER:
 			return incomingState_.firmwareId_;
 		case IOIOLIB_VER:
-			return "IOIO0400";
+			return "IOIO0326";
 		}
 		return null;
 	}
@@ -418,31 +417,6 @@ public class IOIOImpl implements IOIO, DisconnectListener {
 		try {
 			protocol_.setPinAnalogIn(pin);
 			protocol_.setAnalogInSampling(pin, true);
-		} catch (IOException e) {
-			result.close();
-			throw new ConnectionLostException(e);
-		}
-		return result;
-	}
-
-	@Override
-	public CapSense openCapSense(int pin) throws ConnectionLostException {
-		return openCapSense(pin, CapSense.DEFAULT_COEF);
-	}
-
-	@Override
-	public synchronized CapSense openCapSense(int pin, float filterCoef)
-			throws ConnectionLostException {
-		checkState();
-		hardware_.checkSupportsCapSense(pin);
-		checkPinFree(pin);
-		CapSenseImpl result = new CapSenseImpl(this, pin, filterCoef);
-		addDisconnectListener(result);
-		openPins_[pin] = true;
-		incomingState_.addInputPinListener(pin, result);
-		try {
-			protocol_.setPinCapSense(pin);
-			protocol_.setCapSenseSampling(pin, true);
 		} catch (IOException e) {
 			result.close();
 			throw new ConnectionLostException(e);
