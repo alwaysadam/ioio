@@ -1,6 +1,7 @@
 package ioio.examples.hello;
 
 import ioio.lib.api.DigitalOutput;
+import ioio.lib.api.BitPattern;
 import ioio.lib.api.exception.ConnectionLostException;
 import ioio.lib.util.BaseIOIOLooper;
 import ioio.lib.util.IOIOLooper;
@@ -18,6 +19,7 @@ import android.widget.ToggleButton;
  */
 public class MainActivity extends IOIOActivity {
 	private ToggleButton button_;
+	private ToggleButton bitbutton_;
 
 	/**
 	 * Called when the activity is first created. Here we normally initialize
@@ -28,6 +30,7 @@ public class MainActivity extends IOIOActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		button_ = (ToggleButton) findViewById(R.id.button);
+		bitbutton_ = (ToggleButton) findViewById(R.id.bitbutton);
 	}
 
 	/**
@@ -40,6 +43,7 @@ public class MainActivity extends IOIOActivity {
 	class Looper extends BaseIOIOLooper {
 		/** The on-board LED. */
 		private DigitalOutput led_;
+		private BitPattern pattern_;
 
 		/**
 		 * Called every time a connection with IOIO has been established.
@@ -53,6 +57,7 @@ public class MainActivity extends IOIOActivity {
 		@Override
 		protected void setup() throws ConnectionLostException {
 			led_ = ioio_.openDigitalOutput(0, true);
+			pattern_ = ioio_.openBitPattern(1, true);
 		}
 
 		/**
@@ -66,6 +71,7 @@ public class MainActivity extends IOIOActivity {
 		@Override
 		public void loop() throws ConnectionLostException {
 			led_.write(!button_.isChecked());
+			pattern_.write(!bitbutton_.isChecked());
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {

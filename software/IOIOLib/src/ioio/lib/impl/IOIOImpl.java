@@ -33,6 +33,7 @@ import ioio.lib.api.DigitalInput;
 import ioio.lib.api.DigitalInput.Spec;
 import ioio.lib.api.DigitalInput.Spec.Mode;
 import ioio.lib.api.DigitalOutput;
+import ioio.lib.api.BitPattern;
 import ioio.lib.api.IOIO;
 import ioio.lib.api.IOIOConnection;
 import ioio.lib.api.IcspMaster;
@@ -404,6 +405,49 @@ public class IOIOImpl implements IOIO, DisconnectListener {
 		return openDigitalOutput(new DigitalOutput.Spec(pin), false);
 	}
 
+	
+	
+	
+	@Override
+	public BitPattern openBitPattern(int pin,
+			ioio.lib.api.BitPattern.Spec.Mode mode, boolean startValue)
+			throws ConnectionLostException {
+		return openBitPattern(new BitPattern.Spec(pin, mode), startValue);
+	}
+
+	@Override
+	synchronized public BitPattern openBitPattern(
+			BitPattern.Spec spec, boolean startValue)
+			throws ConnectionLostException {
+		checkState();
+		hardware_.checkValidPin(spec.pin);
+		checkPinFree(spec.pin);
+		BitPatternImpl result = new BitPatternImpl(this, spec.pin, startValue);
+		addDisconnectListener(result);
+		openPins_[spec.pin] = true;
+		try {
+			protocol_.setPinBitPattern(spec.pin, startValue, spec.mode);
+		} catch (IOException e) {
+			result.close();
+			throw new ConnectionLostException(e);
+		}
+		return result;
+	}
+
+	@Override
+	public BitPattern openBitPattern(int pin, boolean startValue)
+			throws ConnectionLostException {
+		return openBitPattern(new BitPattern.Spec(pin), startValue);
+	}
+
+	@Override
+	public BitPattern openBitPattern(int pin)
+			throws ConnectionLostException {
+		return openBitPattern(new BitPattern.Spec(pin), false);
+	}
+
+	
+	
 	@Override
 	synchronized public AnalogInput openAnalogInput(int pin)
 			throws ConnectionLostException {

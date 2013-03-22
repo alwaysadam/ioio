@@ -30,6 +30,7 @@ package ioio.lib.impl;
 
 import ioio.lib.api.DigitalInput;
 import ioio.lib.api.DigitalOutput;
+import ioio.lib.api.BitPattern;
 import ioio.lib.api.SpiMaster;
 import ioio.lib.api.TwiMaster.Rate;
 import ioio.lib.api.Uart;
@@ -92,6 +93,7 @@ class IOIOProtocol {
 	static final int SET_PIN_INCAP                       = 0x1C;
 	static final int INCAP_REPORT                        = 0x1C;
 	static final int SOFT_CLOSE                          = 0x1D;
+	static final int SET_BIT_PATTERN					 = 0xA0;
 
 	static final int[] SCALE_DIV = new int[] {
 		0x1F,  // 31.25
@@ -221,6 +223,14 @@ class IOIOProtocol {
 		writeByte(pin << 2 | (level ? 1 : 0));
 		endBatch();
 	}
+	
+	synchronized public void setBitPattern(int pin, boolean level)
+			throws IOException {
+		beginBatch();
+		writeByte(SET_BIT_PATTERN);
+		writeByte(pin << 2 | (level ? 1 : 0));
+		endBatch();
+	}
 
 	synchronized public void setPinPwm(int pin, int pwmNum, boolean enable)
 			throws IOException {
@@ -298,6 +308,16 @@ class IOIOProtocol {
 		writeByte(SET_PIN_DIGITAL_OUT);
 		writeByte((pin << 2)
 				| (mode == DigitalOutput.Spec.Mode.OPEN_DRAIN ? 0x01 : 0x00)
+				| (value ? 0x02 : 0x00));
+		endBatch();
+	}
+	
+	synchronized public void setPinBitPattern(int pin, boolean value,
+			BitPattern.Spec.Mode mode) throws IOException {
+		beginBatch();
+		writeByte(SET_PIN_DIGITAL_OUT);
+		writeByte((pin << 2)
+				| (mode == BitPattern.Spec.Mode.OPEN_DRAIN ? 0x01 : 0x00)
 				| (value ? 0x02 : 0x00));
 		endBatch();
 	}

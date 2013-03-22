@@ -317,6 +317,66 @@ public interface IOIO {
 	public DigitalOutput openDigitalOutput(int pin)
 			throws ConnectionLostException;
 
+	
+	
+	
+	
+	/**
+	 * Open a pin for digital output.
+	 * <p>
+	 * A digital output pin can be used to generate logic-level signals. The pin
+	 * will operate in this mode until close() is invoked on the returned
+	 * interface. It is illegal to open a pin that has already been opened and
+	 * has not been closed. A connection must have been established prior to
+	 * calling this method, by invoking {@link #waitForConnect()}.
+	 * 
+	 * @param spec
+	 *            Pin specification, consisting of the pin number, as labeled on
+	 *            the board, and the mode, which determines whether the pin will
+	 *            be normal or open-drain. See {@link DigitalOutput.Spec.Mode}
+	 *            for more information.
+	 * @param startValue
+	 *            The initial logic level this pin will generate as soon at it
+	 *            is open.
+	 * @return Interface of the assigned pin.
+	 * @throws ConnectionLostException
+	 *             Connection was lost before or during the execution of this
+	 *             method.
+	 * @see DigitalOutput
+	 */
+	public BitPattern openBitPattern(BitPattern.Spec spec,
+			boolean startValue) throws ConnectionLostException;
+
+	/**
+	 * Shorthand for openDigitalOutput(new DigitalOutput.Spec(pin, mode),
+	 * startValue).
+	 * 
+	 * @see #openDigitalOutput(ioio.lib.api.DigitalOutput.Spec, boolean)
+	 */
+	public BitPattern openBitPattern(int pin,
+			BitPattern.Spec.Mode mode, boolean startValue)
+			throws ConnectionLostException;
+
+	/**
+	 * Shorthand for openDigitalOutput(new DigitalOutput.Spec(pin), startValue).
+	 * Pin mode will be "normal" (as opposed to "open-drain".
+	 * 
+	 * @see #openDigitalOutput(ioio.lib.api.DigitalOutput.Spec, boolean)
+	 */
+	public BitPattern openBitPattern(int pin, boolean startValue)
+			throws ConnectionLostException;
+
+	/**
+	 * Shorthand for openDigitalOutput(new DigitalOutput.Spec(pin), false). Pin
+	 * mode will be "normal" (as opposed to "open-drain".
+	 * 
+	 * @see #openDigitalOutput(ioio.lib.api.DigitalOutput.Spec, boolean)
+	 */
+	public BitPattern openBitPattern(int pin)
+			throws ConnectionLostException;
+
+	
+	
 	/**
 	 * Open a pin for analog input.
 	 * <p>
