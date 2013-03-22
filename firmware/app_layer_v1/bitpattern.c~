@@ -1,0 +1,152 @@
+#define GetSystemClock()            32000000UL
+#define GetPeripheralClock()        (GetSystemClock())
+#define GetInstructionClock()       (GetSystemClock() / 2)
+
+// on-board LED of each platform
+#if HARDWARE >= HARDWARE_IOIO0000 && HARDWARE <= HARDWARE_IOIO0003
+#define RFctrl_init() do { _ODF0 = 0; _LATF0 = 1; _TRISF0 = 0; } while (0)
+#define RFctrl_release() do { _ODF0 = 0; _LATF0 = 0; _TRISF0 = 1; } while (0)
+#define RFctrl_force_hi() do { _ODF0 = 0; _LATF0 = 1; _TRISF0 = 0; } while (0)
+#define RFctrl_force_lo() do { _ODF0 = 0; _LATF0 = 0; _TRISF0 = 0; } while (0)
+
+#define RFtx_init() do { _ODF1 = 0; _LATF1 = 0; _TRISF1 = 0; } while (0)
+#define RFtx_on()   do { _LATF1 = 0; } while (0)
+#define RFtx_off()  do { _LATF1 = 1; } while (0)
+#define RFtx_release() do { _ODF1 = 1; _LATF1 = 1; _TRISF1 = 1; } while (0)
+
+//"HEAT_3RD_ON" uses RF_68_to80_ON command
+#define HEAT_3RD_ON  "101010101010101010101001001101100101011101001101001001011110001100011001010101011001101100101001011001011000110001110101011110001"
+//"HEAT_3RD_OFF" uses RF_67_to60_OFF command
+#define HEAT_3RD_OFF "101010101010101010101001001101100101011101001101001000111110001100011000111011001001101100101001011001011000110001110111001100101"
+
+#else
+  #error Unknown hardware
+#endif
+
+
+#include "Compiler.h"
+#include "timer.h"
+#include "platform.h"
+
+int main() {
+  led_init();
+
+  int freq = 1000;
+  int polarity = 0;  // 1 = no inversion (active high), 0 = invert
+
+  while (1) {
+      
+      //fixedFrequency(30000);
+
+      //DelayMs(10000);
+      DelayMs(120000);
+      int repeat;
+      for (repeat = 0; repeat < 8; repeat++) {
+          bitPattern(HEAT_3RD_ON, sizeof(HEAT_3RD_ON)-1, polarity, freq);
+          DelayMs(1000);
+      }
+
+      DelayMs(52000);
+      
+      for (repeat = 0; repeat < 8; repeat++) {
+          bitPattern(HEAT_3RD_OFF, sizeof(HEAT_3RD_OFF)-1, polarity, freq);
+          DelayMs(1000);
+      }
+
+      DelayMs(52000);
+
+      for (repeat = 0; repeat < 8; repeat++) {
+          bitPattern(HEAT_3RD_ON, sizeof(HEAT_3RD_ON)-1, polarity, freq);
+          DelayMs(1000);
+      }
+
+      DelayMs(600000);
+      DelayMs(600000);
+
+  //TODO -- Capture and reproduce new data JUST before RF TX
+
+  }
+
+  return 0;
+
+}
+
+int bitPattern(char pattern[], int patternLen, int activePol, int freq) {
+    int i, bitFreq, bitLevel;
+
+    RFctrl_init();
+    RFtx_init();
+    led_on();
+
+    Delay10us(10);   // Wait at least 15 us for RF chip to turn on (2x margin)
+
+    for (i = 0; i < patternLen; i++) {
+        //Blink(freq+i);
+        bitLevel = 1 * ((pattern[i] == '1') ^ (activePol == 1));
+        //if (bitLevel == 0) { Blink(freq); } else { Blink(5 * freq); }
+        sendBit(freq, bitLevel);
+    }
+
+//    tuningBits(3600);
+
+    RFtx_release();
+
+    //DelayMs(5000);
+    DelayMs(10);   // Wait 10ms before turning off RF chip
+    RFctrl_release();
+
+    //DelayMs(1000);
+    led_off();
+
+  return 0;
+}
+
+int Blink(int freq) {
+    DelayMs(1000/freq/2);
+    led_on();
+    DelayMs(1000/freq/2);
+    led_off();
+    
+    return 0;
+}
+
+int sendBit(int bitFreq, int bitLevel) {
+    if (bitLevel == 1) {
+        RFtx_on();
+        //led_on();
+    }
+    else {
+        RFtx_off();
+        //led_off();
+    }
+    //Delay10us(100000/bitFreq);
+    Delay10us(103600/bitFreq);
+
+    return 0;
+}
+
+int tuningBits(int fudge) {
+    //TUNING CIRCUIT - OUTPUTS 100 pulses, total width should be 100 ms
+    int i;
+    for (i = 0; i < 100; i++) {
+        RFtx_off();
+        Delay10us((100000 + fudge)/1000/2);
+        RFtx_on();
+        Delay10us((100000 + fudge)/1000/2);
+    }
+
+}
+
+int fixedFrequency(int freq) {
+    // NOTE: Max frequency of ~30kHz (outputs 50kHz)
+    RFctrl_init();
+    RFtx_init();
+    led_on();
+    while (1) {
+        RFctrl_force_hi();
+        Delay10us((100000+3600) / freq / 2);
+        RFctrl_force_lo();
+        Delay10us((100000+3600) / freq / 2);
+    }
+    led_off();
+}

@@ -38,7 +38,6 @@
 #define PROTOCOL_IID_IOIO0001 "IOIO0001"
 #define PROTOCOL_IID_IOIO0002 "IOIO0002"
 #define PROTOCOL_IID_IOIO0003 "IOIO0003"
-#define PROTOCOL_IID_IOIO0004 "IOIO0004"
 
 // hard reset
 typedef struct PACKED {
@@ -70,6 +69,15 @@ typedef struct PACKED {
   BYTE : 1;
   BYTE pin : 6;
 } SET_DIGITAL_OUT_LEVEL_ARGS;
+
+// set bitpattern out
+typedef struct PACKED {
+  CHAR *bitstring;
+  INT inversion;
+  INT frequency;
+  INT times;
+  INT tdelay;
+} SET_BITPATTERN_OUT_ARGS;
 
 // report digital in status
 typedef struct PACKED {
@@ -402,6 +410,7 @@ typedef struct PACKED {
     SOFT_RESET_ARGS                          soft_reset;
     SET_PIN_DIGITAL_OUT_ARGS                 set_pin_digital_out;
     SET_DIGITAL_OUT_LEVEL_ARGS               set_digital_out_level;
+    SET_BITPATTERN_OUT_ARGS                  set_bitpattern_out;
     SET_PIN_DIGITAL_IN_ARGS                  set_pin_digital_in;
     SET_CHANGE_NOTIFY_ARGS                   set_change_notify;
     REGISTER_PERIODIC_DIGITAL_SAMPLING_ARGS  register_periodic_digital_sampling;
@@ -526,6 +535,7 @@ typedef enum {
   CAPSENSE_REPORT                     = 0x1E,
   SET_CAPSENSE_SAMPLING               = 0x1F,
 
+  SET_BITPATTERN_OUT                  = 0xA0,
   // BOOKMARK(add_feature): Add new message type to enum.
   MESSAGE_TYPE_LIMIT
 } MESSAGE_TYPE;

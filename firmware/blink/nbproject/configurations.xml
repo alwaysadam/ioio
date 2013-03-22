@@ -44,8 +44,8 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>Simulator</platformTool>
         <languageToolchain>C30</languageToolchain>
-        <languageToolchainVersion>3_31</languageToolchainVersion>
-        <platform>3</platform>
+        <languageToolchainVersion>3_30</languageToolchainVersion>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
@@ -53,6 +53,21 @@
           </linkerLibItems>
         </linkerTool>
         <loading>
+          <makeArtifact PL="../bootloader"
+                        CT="1"
+                        CN="SPRK0016"
+                        AC="true"
+                        BL="true"
+                        WD="../bootloader"
+                        BC="${MAKE}  -f Makefile CONF=SPRK0016"
+                        DBC="${MAKE}  -f Makefile CONF=SPRK0016 TYPE_IMAGE=DEBUG_RUN"
+                        CC="rm -rf &quot;build/SPRK0016&quot; &quot;dist/SPRK0016&quot;"
+                        OP="dist/SPRK0016/production/bootloader.production.hex"
+                        DOP="dist/SPRK0016/debug/bootloader.debug.cof"
+                        FL="dist/SPRK0016/production/bootloader.production.hex"
+                        PD="dist/SPRK0016/production/bootloader.production.cof"
+                        DD="dist/SPRK0016/debug/bootloader.debug.cof">
+          </makeArtifact>
           <useAlternateLoadableFile>false</useAlternateLoadableFile>
           <alternateLoadableFile></alternateLoadableFile>
         </loading>
@@ -138,8 +153,8 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>Simulator</platformTool>
         <languageToolchain>C30</languageToolchain>
-        <languageToolchainVersion>3_31</languageToolchainVersion>
-        <platform>3</platform>
+        <languageToolchainVersion>3_30</languageToolchainVersion>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
@@ -147,6 +162,21 @@
           </linkerLibItems>
         </linkerTool>
         <loading>
+          <makeArtifact PL="../bootloader"
+                        CT="1"
+                        CN="SPRK0016"
+                        AC="true"
+                        BL="true"
+                        WD="../bootloader"
+                        BC="${MAKE}  -f Makefile CONF=SPRK0016"
+                        DBC="${MAKE}  -f Makefile CONF=SPRK0016 TYPE_IMAGE=DEBUG_RUN"
+                        CC="rm -rf &quot;build/SPRK0016&quot; &quot;dist/SPRK0016&quot;"
+                        OP="dist/SPRK0016/production/bootloader.production.hex"
+                        DOP="dist/SPRK0016/debug/bootloader.debug.cof"
+                        FL="dist/SPRK0016/production/bootloader.production.hex"
+                        PD="dist/SPRK0016/production/bootloader.production.cof"
+                        DD="dist/SPRK0016/debug/bootloader.debug.cof">
+          </makeArtifact>
           <useAlternateLoadableFile>false</useAlternateLoadableFile>
           <alternateLoadableFile></alternateLoadableFile>
         </loading>
@@ -230,10 +260,10 @@
         <targetDevice>PIC24FJ256DA206</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>Simulator</platformTool>
+        <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>C30</languageToolchain>
-        <languageToolchainVersion>3_31</languageToolchainVersion>
-        <platform>3</platform>
+        <languageToolchainVersion>3_30</languageToolchainVersion>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
@@ -241,6 +271,21 @@
           </linkerLibItems>
         </linkerTool>
         <loading>
+          <makeArtifact PL="../bootloader"
+                        CT="1"
+                        CN="SPRK0016"
+                        AC="true"
+                        BL="true"
+                        WD="../bootloader"
+                        BC="${MAKE}  -f Makefile CONF=SPRK0016"
+                        DBC="${MAKE}  -f Makefile CONF=SPRK0016 TYPE_IMAGE=DEBUG_RUN"
+                        CC="rm -rf &quot;build/SPRK0016&quot; &quot;dist/SPRK0016&quot;"
+                        OP="dist/SPRK0016/production/bootloader.production.hex"
+                        DOP="dist/SPRK0016/debug/bootloader.debug.cof"
+                        FL="dist/SPRK0016/production/bootloader.production.hex"
+                        PD="dist/SPRK0016/production/bootloader.production.cof"
+                        DD="dist/SPRK0016/debug/bootloader.debug.cof">
+          </makeArtifact>
           <useAlternateLoadableFile>false</useAlternateLoadableFile>
           <alternateLoadableFile></alternateLoadableFile>
         </loading>
@@ -315,8 +360,8 @@
         <property key="legacy-libc" value="false"/>
         <property key="output-file-format" value="coff"/>
       </C30Global>
-      <Simulator>
-      </Simulator>
+      <PICkit3PlatformTool>
+      </PICkit3PlatformTool>
     </conf>
     <conf name="IOIO0030" type="2">
       <toolsSet>
@@ -326,8 +371,8 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>Simulator</platformTool>
         <languageToolchain>C30</languageToolchain>
-        <languageToolchainVersion>3_31</languageToolchainVersion>
-        <platform>3</platform>
+        <languageToolchainVersion>3_30</languageToolchainVersion>
+        <platform>2</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
@@ -335,6 +380,21 @@
           </linkerLibItems>
         </linkerTool>
         <loading>
+          <makeArtifact PL="../bootloader"
+                        CT="1"
+                        CN="SPRK0016"
+                        AC="true"
+                        BL="true"
+                        WD="../bootloader"
+                        BC="${MAKE}  -f Makefile CONF=SPRK0016"
+                        DBC="${MAKE}  -f Makefile CONF=SPRK0016 TYPE_IMAGE=DEBUG_RUN"
+                        CC="rm -rf &quot;build/SPRK0016&quot; &quot;dist/SPRK0016&quot;"
+                        OP="dist/SPRK0016/production/bootloader.production.hex"
+                        DOP="dist/SPRK0016/debug/bootloader.debug.cof"
+                        FL="dist/SPRK0016/production/bootloader.production.hex"
+                        PD="dist/SPRK0016/production/bootloader.production.cof"
+                        DD="dist/SPRK0016/debug/bootloader.debug.cof">
+          </makeArtifact>
           <useAlternateLoadableFile>false</useAlternateLoadableFile>
           <alternateLoadableFile></alternateLoadableFile>
         </loading>

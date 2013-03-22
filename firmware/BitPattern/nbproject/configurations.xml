@@ -4,35 +4,39 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>connection.h</itemPath>
-      <itemPath>connection_private.h</itemPath>
-      <itemPath>bt_connection.h</itemPath>
-      <itemPath>accessory_connection.h</itemPath>
-      <itemPath>adb_connection.h</itemPath>
-      <itemPath>cdc_connection.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="LibraryFiles"
+                   displayName="Library Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="LinkerScript"
+                   displayName="Linker Files"
+                   projectFiles="true">
+      <itemPath>../common/dummy.gld</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ObjectFiles"
+                   displayName="Object Files"
+                   projectFiles="true">
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>connection.c</itemPath>
-      <itemPath>bt_connection.c</itemPath>
-      <itemPath>accessory_connection.c</itemPath>
-      <itemPath>adb_connection.c</itemPath>
-      <itemPath>cdc_connection.c</itemPath>
+      <itemPath>main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false">
       <itemPath>Makefile</itemPath>
+      <itemPath>../blapi/app_BLAPI_3.gld</itemPath>
+      <itemPath>../blapi/app_IOIO0020.gld</itemPath>
+      <itemPath>../blapi/app_IOIO0021.gld</itemPath>
+      <itemPath>../blapi/app_IOIO0022.gld</itemPath>
+      <itemPath>../blapi/app_IOIO0023.gld</itemPath>
     </logicalFolder>
   </logicalFolder>
-  <sourceRootList>
-    <Elem>.</Elem>
-    <Elem>../microchip</Elem>
-  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
-    <conf name="PIC24FJ128DA106" type="3">
+    <conf name="IOIO0021" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <targetDevice>PIC24FJ128DA106</targetDevice>
@@ -44,8 +48,29 @@
         <platform>2</platform>
       </toolsSet>
       <compileType>
-        <archiverTool>
-        </archiverTool>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+        <loading>
+          <makeArtifact PL="../bootloader"
+                        CT="1"
+                        CN="SPRK0016"
+                        AC="true"
+                        BL="true"
+                        WD="../bootloader"
+                        BC="${MAKE}  -f Makefile CONF=SPRK0016"
+                        DBC="${MAKE}  -f Makefile CONF=SPRK0016 TYPE_IMAGE=DEBUG_RUN"
+                        CC="rm -rf &quot;build/SPRK0016&quot; &quot;dist/SPRK0016&quot;"
+                        OP="dist/SPRK0016/production/bootloader.production.hex"
+                        DOP="dist/SPRK0016/debug/bootloader.debug.cof"
+                        FL="dist/SPRK0016/production/bootloader.production.hex"
+                        PD="dist/SPRK0016/production/bootloader.production.cof"
+                        DD="dist/SPRK0016/debug/bootloader.debug.cof">
+          </makeArtifact>
+          <useAlternateLoadableFile>false</useAlternateLoadableFile>
+          <alternateLoadableFile></alternateLoadableFile>
+        </loading>
       </compileType>
       <makeCustomizationType>
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
@@ -58,9 +83,9 @@
       </makeCustomizationType>
       <C30>
         <property key="code-model" value="default"/>
-        <property key="const-model" value="const-in-data"/>
-        <property key="data-model" value="large-data"/>
-        <property key="enable-all-warnings" value="true"/>
+        <property key="const-model" value="default"/>
+        <property key="data-model" value="default"/>
+        <property key="enable-all-warnings" value="false"/>
         <property key="enable-ansi-std" value="false"/>
         <property key="enable-ansi-warnings" value="false"/>
         <property key="enable-fatal-warnings" value="false"/>
@@ -71,38 +96,22 @@
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="extra-include-directories"
-                  value=".;../common;../microchip/include;../libusb;../libbtstack;../libbtstack/include;../libbtstack/src;../libadb"/>
-        <property key="isolate-each-function" value="true"/>
-        <property key="optimization-level" value="s"/>
+                  value="../common;../microchip/include"/>
+        <property key="isolate-each-function" value="false"/>
+        <property key="optimization-level" value="3"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value="NDEBUG"/>
+        <property key="preprocessor-macros" value="PLATFORM=1021"/>
         <property key="scalar-model" value="default"/>
       </C30>
       <C30-AS>
-        <property key="assembler-symbols" value=""/>
-        <property key="expand-macros" value="false"/>
-        <property key="extra-include-directories-for-assembler" value=""/>
-        <property key="extra-include-directories-for-preprocessor" value=""/>
-        <property key="false-conditionals" value="false"/>
-        <property key="keep-locals" value="false"/>
-        <property key="list-assembly" value="false"/>
-        <property key="list-file" value=""/>
-        <property key="list-section-info" value="false"/>
-        <property key="list-source" value="false"/>
-        <property key="list-symbols" value="false"/>
-        <property key="omit-debug-dirs" value="false"/>
-        <property key="omit-forms" value="false"/>
-        <property key="preprocessor-macros" value=""/>
-        <property key="relax" value="false"/>
-        <property key="warning-level" value="emit-warnings"/>
       </C30-AS>
       <C30-LD>
         <property key="boot-eeprom" value="no_eeprom"/>
         <property key="boot-flash" value="no_flash"/>
         <property key="boot-ram" value="no_ram"/>
         <property key="boot-write-protect" value="no_write_protect"/>
-        <property key="enable-check-sections" value="false"/>
+        <property key="enable-check-sections" value="true"/>
         <property key="enable-data-init" value="true"/>
         <property key="enable-default-isr" value="true"/>
         <property key="enable-handles" value="true"/>
@@ -126,6 +135,7 @@
         <property key="symbol-stripping" value="keep-all"/>
         <property key="trace-symbols" value=""/>
         <property key="warn-section-align" value="false"/>
+        <appendMe value="-T../blapi/app_IOIO0021.gld"/>
       </C30-LD>
       <C30Global>
         <property key="fast-math" value="false"/>
@@ -135,20 +145,41 @@
       <PICkit3PlatformTool>
       </PICkit3PlatformTool>
     </conf>
-    <conf name="PIC24FJ128DA206" type="3">
+    <conf name="IOIO0022" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <targetDevice>PIC24FJ128DA206</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>PICkit3PlatformTool</platformTool>
+        <platformTool>Simulator</platformTool>
         <languageToolchain>C30</languageToolchain>
         <languageToolchainVersion>3_30</languageToolchainVersion>
         <platform>2</platform>
       </toolsSet>
       <compileType>
-        <archiverTool>
-        </archiverTool>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+        <loading>
+          <makeArtifact PL="../bootloader"
+                        CT="1"
+                        CN="SPRK0016"
+                        AC="true"
+                        BL="true"
+                        WD="../bootloader"
+                        BC="${MAKE}  -f Makefile CONF=SPRK0016"
+                        DBC="${MAKE}  -f Makefile CONF=SPRK0016 TYPE_IMAGE=DEBUG_RUN"
+                        CC="rm -rf &quot;build/SPRK0016&quot; &quot;dist/SPRK0016&quot;"
+                        OP="dist/SPRK0016/production/bootloader.production.hex"
+                        DOP="dist/SPRK0016/debug/bootloader.debug.cof"
+                        FL="dist/SPRK0016/production/bootloader.production.hex"
+                        PD="dist/SPRK0016/production/bootloader.production.cof"
+                        DD="dist/SPRK0016/debug/bootloader.debug.cof">
+          </makeArtifact>
+          <useAlternateLoadableFile>false</useAlternateLoadableFile>
+          <alternateLoadableFile></alternateLoadableFile>
+        </loading>
       </compileType>
       <makeCustomizationType>
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
@@ -161,9 +192,9 @@
       </makeCustomizationType>
       <C30>
         <property key="code-model" value="default"/>
-        <property key="const-model" value="const-in-data"/>
-        <property key="data-model" value="large-data"/>
-        <property key="enable-all-warnings" value="true"/>
+        <property key="const-model" value="default"/>
+        <property key="data-model" value="default"/>
+        <property key="enable-all-warnings" value="false"/>
         <property key="enable-ansi-std" value="false"/>
         <property key="enable-ansi-warnings" value="false"/>
         <property key="enable-fatal-warnings" value="false"/>
@@ -174,38 +205,22 @@
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="extra-include-directories"
-                  value=".;../common;../microchip/include;../libusb;../libbtstack;../libbtstack/include;../libbtstack/src;../libadb"/>
-        <property key="isolate-each-function" value="true"/>
-        <property key="optimization-level" value="s"/>
+                  value="../common;../microchip/include"/>
+        <property key="isolate-each-function" value="false"/>
+        <property key="optimization-level" value="3"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value="NDEBUG"/>
+        <property key="preprocessor-macros" value="PLATFORM=1022"/>
         <property key="scalar-model" value="default"/>
       </C30>
       <C30-AS>
-        <property key="assembler-symbols" value=""/>
-        <property key="expand-macros" value="false"/>
-        <property key="extra-include-directories-for-assembler" value=""/>
-        <property key="extra-include-directories-for-preprocessor" value=""/>
-        <property key="false-conditionals" value="false"/>
-        <property key="keep-locals" value="false"/>
-        <property key="list-assembly" value="false"/>
-        <property key="list-file" value=""/>
-        <property key="list-section-info" value="false"/>
-        <property key="list-source" value="false"/>
-        <property key="list-symbols" value="false"/>
-        <property key="omit-debug-dirs" value="false"/>
-        <property key="omit-forms" value="false"/>
-        <property key="preprocessor-macros" value=""/>
-        <property key="relax" value="false"/>
-        <property key="warning-level" value="emit-warnings"/>
       </C30-AS>
       <C30-LD>
         <property key="boot-eeprom" value="no_eeprom"/>
         <property key="boot-flash" value="no_flash"/>
         <property key="boot-ram" value="no_ram"/>
         <property key="boot-write-protect" value="no_write_protect"/>
-        <property key="enable-check-sections" value="false"/>
+        <property key="enable-check-sections" value="true"/>
         <property key="enable-data-init" value="true"/>
         <property key="enable-default-isr" value="true"/>
         <property key="enable-handles" value="true"/>
@@ -229,16 +244,17 @@
         <property key="symbol-stripping" value="keep-all"/>
         <property key="trace-symbols" value=""/>
         <property key="warn-section-align" value="false"/>
+        <appendMe value="-T../blapi/app_IOIO0022.gld"/>
       </C30-LD>
       <C30Global>
         <property key="fast-math" value="false"/>
         <property key="legacy-libc" value="false"/>
         <property key="output-file-format" value="coff"/>
       </C30Global>
-      <PICkit3PlatformTool>
-      </PICkit3PlatformTool>
+      <Simulator>
+      </Simulator>
     </conf>
-    <conf name="PIC24FJ256DA206" type="3">
+    <conf name="IOIO0023" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <targetDevice>PIC24FJ256DA206</targetDevice>
@@ -250,8 +266,29 @@
         <platform>2</platform>
       </toolsSet>
       <compileType>
-        <archiverTool>
-        </archiverTool>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+        <loading>
+          <makeArtifact PL="../bootloader"
+                        CT="1"
+                        CN="SPRK0016"
+                        AC="true"
+                        BL="true"
+                        WD="../bootloader"
+                        BC="${MAKE}  -f Makefile CONF=SPRK0016"
+                        DBC="${MAKE}  -f Makefile CONF=SPRK0016 TYPE_IMAGE=DEBUG_RUN"
+                        CC="rm -rf &quot;build/SPRK0016&quot; &quot;dist/SPRK0016&quot;"
+                        OP="dist/SPRK0016/production/bootloader.production.hex"
+                        DOP="dist/SPRK0016/debug/bootloader.debug.cof"
+                        FL="dist/SPRK0016/production/bootloader.production.hex"
+                        PD="dist/SPRK0016/production/bootloader.production.cof"
+                        DD="dist/SPRK0016/debug/bootloader.debug.cof">
+          </makeArtifact>
+          <useAlternateLoadableFile>false</useAlternateLoadableFile>
+          <alternateLoadableFile></alternateLoadableFile>
+        </loading>
       </compileType>
       <makeCustomizationType>
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
@@ -264,9 +301,9 @@
       </makeCustomizationType>
       <C30>
         <property key="code-model" value="default"/>
-        <property key="const-model" value="const-in-data"/>
-        <property key="data-model" value="large-data"/>
-        <property key="enable-all-warnings" value="true"/>
+        <property key="const-model" value="default"/>
+        <property key="data-model" value="default"/>
+        <property key="enable-all-warnings" value="false"/>
         <property key="enable-ansi-std" value="false"/>
         <property key="enable-ansi-warnings" value="false"/>
         <property key="enable-fatal-warnings" value="false"/>
@@ -277,38 +314,22 @@
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="extra-include-directories"
-                  value=".;../common;../microchip/include;../libusb;../libbtstack;../libbtstack/include;../libbtstack/src;../libadb"/>
-        <property key="isolate-each-function" value="true"/>
-        <property key="optimization-level" value="s"/>
+                  value="../common;../microchip/include"/>
+        <property key="isolate-each-function" value="false"/>
+        <property key="optimization-level" value="3"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value="NDEBUG"/>
+        <property key="preprocessor-macros" value="PLATFORM=1023"/>
         <property key="scalar-model" value="default"/>
       </C30>
       <C30-AS>
-        <property key="assembler-symbols" value=""/>
-        <property key="expand-macros" value="false"/>
-        <property key="extra-include-directories-for-assembler" value=""/>
-        <property key="extra-include-directories-for-preprocessor" value=""/>
-        <property key="false-conditionals" value="false"/>
-        <property key="keep-locals" value="false"/>
-        <property key="list-assembly" value="false"/>
-        <property key="list-file" value=""/>
-        <property key="list-section-info" value="false"/>
-        <property key="list-source" value="false"/>
-        <property key="list-symbols" value="false"/>
-        <property key="omit-debug-dirs" value="false"/>
-        <property key="omit-forms" value="false"/>
-        <property key="preprocessor-macros" value=""/>
-        <property key="relax" value="false"/>
-        <property key="warning-level" value="emit-warnings"/>
       </C30-AS>
       <C30-LD>
         <property key="boot-eeprom" value="no_eeprom"/>
         <property key="boot-flash" value="no_flash"/>
         <property key="boot-ram" value="no_ram"/>
         <property key="boot-write-protect" value="no_write_protect"/>
-        <property key="enable-check-sections" value="false"/>
+        <property key="enable-check-sections" value="true"/>
         <property key="enable-data-init" value="true"/>
         <property key="enable-default-isr" value="true"/>
         <property key="enable-handles" value="true"/>
@@ -332,6 +353,7 @@
         <property key="symbol-stripping" value="keep-all"/>
         <property key="trace-symbols" value=""/>
         <property key="warn-section-align" value="false"/>
+        <appendMe value="-T../blapi/app_IOIO0023.gld"/>
       </C30-LD>
       <C30Global>
         <property key="fast-math" value="false"/>
@@ -341,20 +363,41 @@
       <PICkit3PlatformTool>
       </PICkit3PlatformTool>
     </conf>
-    <conf name="PIC24FJ256GB206" type="3">
+    <conf name="IOIO0030" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <targetDevice>PIC24FJ256GB206</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>PICkit3PlatformTool</platformTool>
+        <platformTool>Simulator</platformTool>
         <languageToolchain>C30</languageToolchain>
         <languageToolchainVersion>3_30</languageToolchainVersion>
         <platform>2</platform>
       </toolsSet>
       <compileType>
-        <archiverTool>
-        </archiverTool>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+        <loading>
+          <makeArtifact PL="../bootloader"
+                        CT="1"
+                        CN="SPRK0016"
+                        AC="true"
+                        BL="true"
+                        WD="../bootloader"
+                        BC="${MAKE}  -f Makefile CONF=SPRK0016"
+                        DBC="${MAKE}  -f Makefile CONF=SPRK0016 TYPE_IMAGE=DEBUG_RUN"
+                        CC="rm -rf &quot;build/SPRK0016&quot; &quot;dist/SPRK0016&quot;"
+                        OP="dist/SPRK0016/production/bootloader.production.hex"
+                        DOP="dist/SPRK0016/debug/bootloader.debug.cof"
+                        FL="dist/SPRK0016/production/bootloader.production.hex"
+                        PD="dist/SPRK0016/production/bootloader.production.cof"
+                        DD="dist/SPRK0016/debug/bootloader.debug.cof">
+          </makeArtifact>
+          <useAlternateLoadableFile>false</useAlternateLoadableFile>
+          <alternateLoadableFile></alternateLoadableFile>
+        </loading>
       </compileType>
       <makeCustomizationType>
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
@@ -367,9 +410,9 @@
       </makeCustomizationType>
       <C30>
         <property key="code-model" value="default"/>
-        <property key="const-model" value="const-in-data"/>
-        <property key="data-model" value="large-data"/>
-        <property key="enable-all-warnings" value="true"/>
+        <property key="const-model" value="default"/>
+        <property key="data-model" value="default"/>
+        <property key="enable-all-warnings" value="false"/>
         <property key="enable-ansi-std" value="false"/>
         <property key="enable-ansi-warnings" value="false"/>
         <property key="enable-fatal-warnings" value="false"/>
@@ -380,38 +423,22 @@
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="extra-include-directories"
-                  value=".;../common;../microchip/include;../libusb;../libbtstack;../libbtstack/include;../libbtstack/src;../libadb"/>
-        <property key="isolate-each-function" value="true"/>
-        <property key="optimization-level" value="s"/>
+                  value="../common;../microchip/include"/>
+        <property key="isolate-each-function" value="false"/>
+        <property key="optimization-level" value="3"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value="NDEBUG"/>
+        <property key="preprocessor-macros" value="PLATFORM=1030"/>
         <property key="scalar-model" value="default"/>
       </C30>
       <C30-AS>
-        <property key="assembler-symbols" value=""/>
-        <property key="expand-macros" value="false"/>
-        <property key="extra-include-directories-for-assembler" value=""/>
-        <property key="extra-include-directories-for-preprocessor" value=""/>
-        <property key="false-conditionals" value="false"/>
-        <property key="keep-locals" value="false"/>
-        <property key="list-assembly" value="false"/>
-        <property key="list-file" value=""/>
-        <property key="list-section-info" value="false"/>
-        <property key="list-source" value="false"/>
-        <property key="list-symbols" value="false"/>
-        <property key="omit-debug-dirs" value="false"/>
-        <property key="omit-forms" value="false"/>
-        <property key="preprocessor-macros" value=""/>
-        <property key="relax" value="false"/>
-        <property key="warning-level" value="emit-warnings"/>
       </C30-AS>
       <C30-LD>
         <property key="boot-eeprom" value="no_eeprom"/>
         <property key="boot-flash" value="no_flash"/>
         <property key="boot-ram" value="no_ram"/>
         <property key="boot-write-protect" value="no_write_protect"/>
-        <property key="enable-check-sections" value="false"/>
+        <property key="enable-check-sections" value="true"/>
         <property key="enable-data-init" value="true"/>
         <property key="enable-default-isr" value="true"/>
         <property key="enable-handles" value="true"/>
@@ -435,14 +462,15 @@
         <property key="symbol-stripping" value="keep-all"/>
         <property key="trace-symbols" value=""/>
         <property key="warn-section-align" value="false"/>
+        <appendMe value="-T../blapi/app_IOIO0030.gld"/>
       </C30-LD>
       <C30Global>
         <property key="fast-math" value="false"/>
         <property key="legacy-libc" value="false"/>
         <property key="output-file-format" value="coff"/>
       </C30Global>
-      <PICkit3PlatformTool>
-      </PICkit3PlatformTool>
+      <Simulator>
+      </Simulator>
     </conf>
   </confs>
 </configurationDescriptor>

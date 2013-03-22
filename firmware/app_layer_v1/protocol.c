@@ -27,6 +27,16 @@
  * or implied.
  */
 
+/***********************************/
+/* DEFINE MESSAGES FOR HEAT ON/OFF */
+/***********************************/
+//"HEAT_3RD_ON" uses RF_68_to80_ON command
+#define HEAT_3RD_ON  "101010101010101010101001001101100101011101001101001001011110001100011001010101011001101100101001011001011000110001110101011110001"
+//"HEAT_3RD_OFF" uses RF_67_to60_OFF command
+#define HEAT_3RD_OFF "101010101010101010101001001101100101011101001101001000111110001100011000111011001001101100101001011001011000110001110111001100101"
+
+
+
 #include "protocol.h"
 
 #include <assert.h>
@@ -55,6 +65,7 @@ const BYTE incoming_arg_size[MESSAGE_TYPE_LIMIT] = {
   sizeof(CHECK_INTERFACE_ARGS),
   sizeof(SET_PIN_DIGITAL_OUT_ARGS),
   sizeof(SET_DIGITAL_OUT_LEVEL_ARGS),
+  sizeof(SET_BITPATTERN_OUT_ARGS),
   sizeof(SET_PIN_DIGITAL_IN_ARGS),
   sizeof(SET_CHANGE_NOTIFY_ARGS),
   sizeof(REGISTER_PERIODIC_DIGITAL_SAMPLING_ARGS),
@@ -279,6 +290,15 @@ static BOOL MessageDone() {
       CHECK(rx_msg.args.set_digital_out_level.pin < NUM_PINS);
       SetDigitalOutLevel(rx_msg.args.set_digital_out_level.pin,
                          rx_msg.args.set_digital_out_level.value);
+      break;
+
+    case SET_BITPATTERN_OUT:
+      //repeatPattern(rx_msg.args.set_bitpattern_out.bitstring,
+      //              rx_msg.args.set_bitpattern_out.inversion,
+      //              rx_msg.args.set_bitpattern_out.frequency,
+      //              rx_msg.args.set_bitpattern_out.times,
+      //              rx_msg.args.set_bitpattern_out.tdelay);
+      repeatPattern('0101', 0, 1000, 5, 1000);
       break;
 
     case SET_PIN_DIGITAL_IN:

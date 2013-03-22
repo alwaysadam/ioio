@@ -212,18 +212,19 @@ void FileRecvPackages(const void* data, UINT32 data_len, int_or_ptr_t arg) {
   if (data) {
     if (auth_result == AUTH_BUSY) {
       auth_result = AuthProcess(data, data_len);
-      if (auth_result != AUTH_BUSY) {
+      if (auth_result == AUTH_BUSY) {
+        return;
+      } else {
         ADBFileClose(*((ADB_FILE_HANDLE *) arg.p));
       }
     }
+  }
+  if (auth_result == AUTH_DONE_PASS) {
+    log_printf("IOIO manager is authentic.");
+    state = MAIN_STATE_AUTH_PASSED;
   } else {
-    if (data_len == 0 && auth_result == AUTH_DONE_PASS) {
-      log_printf("IOIO manager is authentic.");
-      state = MAIN_STATE_AUTH_PASSED;
-    } else {
-      log_printf("IOIO manager authentication failed. Skipping download.");
-      state = MAIN_STATE_RUN_APP;
-    }
+    log_printf("IOIO manager authentication failed. Skipping download.");
+    state = MAIN_STATE_RUN_APP;
   }
 }
 

@@ -197,21 +197,11 @@ static bool IsPin1Grounded() {
   return result;
 }
 
-static bool ShouldEnterBootloader() {
-#ifdef BOOTLOADER_ON_ILLEGAL_OPCODE
-  bool const result = !led_read() || _IOPUWR;
-  _IOPUWR = 0;
-  return result;
-#else
-  return !led_read();
-#endif
-}
-
 int main() {
   log_init();
 
-  // If bootloader mode not requested, go immediately to app.
-  if (!ShouldEnterBootloader()) {
+  // If "boot" is not grounded, go immediately to app.
+  if (led_read()) {
     OscCalibrateCached();
     log_printf("Running app...");
     __asm__("goto __APP_RESET");
