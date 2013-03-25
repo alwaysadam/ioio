@@ -57,7 +57,7 @@ public class MainActivity extends IOIOActivity {
 		@Override
 		protected void setup() throws ConnectionLostException {
 			led_ = ioio_.openDigitalOutput(0, true);
-			pattern_ = ioio_.openBitPattern(1, true);
+			pattern_ = ioio_.openBitPattern(2, true);
 		}
 
 		/**

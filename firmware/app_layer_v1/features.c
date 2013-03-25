@@ -79,7 +79,7 @@ void SetPinDigitalOut(int pin, int value, int open_drain) {
 }
 
 void SetPinDigitalIn(int pin, int pull) {
-  log_printf("SetPinDigitalIn(%d, %d)", pin, pull);
+  //log_printf("SetPinDigitalIn(%d, %d)", pin, pull);
   SAVE_PIN_FOR_LOG(pin);
   PinSetAnsel(pin, 0);
   PinSetRpor(pin, 0);

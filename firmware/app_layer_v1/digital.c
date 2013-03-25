@@ -35,7 +35,7 @@
 #include "sync.h"
 
 void SetDigitalOutLevel(int pin, int value) {
-  log_printf("SetDigitalOutLevel(%d, %d)", pin, value);
+  //log_printf("SetDigitalOutLevel(%d, %d)", pin, value);
   SAVE_PIN_FOR_LOG(pin);
   BYTE prev = SyncInterruptLevel(4);
   PinSetLat(pin, value);

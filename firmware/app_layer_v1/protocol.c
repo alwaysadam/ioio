@@ -65,7 +65,6 @@ const BYTE incoming_arg_size[MESSAGE_TYPE_LIMIT] = {
   sizeof(CHECK_INTERFACE_ARGS),
   sizeof(SET_PIN_DIGITAL_OUT_ARGS),
   sizeof(SET_DIGITAL_OUT_LEVEL_ARGS),
-  sizeof(SET_BITPATTERN_OUT_ARGS),
   sizeof(SET_PIN_DIGITAL_IN_ARGS),
   sizeof(SET_CHANGE_NOTIFY_ARGS),
   sizeof(REGISTER_PERIODIC_DIGITAL_SAMPLING_ARGS),
@@ -92,7 +91,8 @@ const BYTE incoming_arg_size[MESSAGE_TYPE_LIMIT] = {
   sizeof(SET_PIN_INCAP_ARGS),
   sizeof(SOFT_CLOSE_ARGS),
   sizeof(SET_PIN_CAPSENSE_ARGS),
-  sizeof(SET_CAPSENSE_SAMPLING_ARGS)
+  sizeof(SET_CAPSENSE_SAMPLING_ARGS),
+  [SET_BITPATTERN_OUT] = sizeof(SET_BITPATTERN_OUT_ARGS)
   // BOOKMARK(add_feature): Add sizeof (argument for incoming message).
   // Array is indexed by message type enum.
 };
@@ -298,10 +298,27 @@ static BOOL MessageDone() {
       //              rx_msg.args.set_bitpattern_out.frequency,
       //              rx_msg.args.set_bitpattern_out.times,
       //              rx_msg.args.set_bitpattern_out.tdelay);
-      repeatPattern('0101', 0, 1000, 5, 1000);
+      rx_msg.args.set_bitpattern_out.bitstring = 100;
+      //rx_msg.args.set_bitpattern_out.inversion = 1;
+      log_printf("\x1b[32mSET_BITPATTERN ARGS: ");
+      log_printf("bitpattern: %d", rx_msg.args.set_bitpattern_out.bitstring);
+      //log_printf("inversion: %d", rx_msg.args.set_bitpattern_out.inversion);
+      //log_printf("frequency: %d", rx_msg.args.set_bitpattern_out.frequency);
+      //log_printf("# times: %d", rx_msg.args.set_bitpattern_out.times);
+      //log_printf("repeat delay: %d", rx_msg.args.set_bitpattern_out.tdelay);
+
+      //log_printf(rx_msg.args.set_bitpattern_out.bitstring);
+      //log_printf(rx_msg.args.set_bitpattern_out.inversion);
+      //log_printf(rx_msg.args.set_bitpattern_out.frequency);
+      //log_printf(rx_msg.args.set_bitpattern_out.times);
+      //log_printf(rx_msg.args.set_bitpattern_out.tdelay);
+      log_printf("\x1b[37m");
+      repeatPattern('0101', 0, 1000, 2, 1000);
+      log_printf("\x1b[32mSET_BITPATTERN command processed successfully\x1b[37m");
       break;
 
     case SET_PIN_DIGITAL_IN:
+      log_printf("CASE: %x, executing SET_PIN_DIGITAL_IN", rx_msg.type);
       CHECK(rx_msg.args.set_pin_digital_in.pin < NUM_PINS);
       CHECK(rx_msg.args.set_pin_digital_in.pull < 3);
       SetPinDigitalIn(rx_msg.args.set_pin_digital_in.pin, rx_msg.args.set_pin_digital_in.pull);
@@ -319,6 +336,7 @@ static BOOL MessageDone() {
       break;
 
     case SET_PIN_PWM:
+      log_printf("CASE: %x, executing SET_PIN_PWM", rx_msg.type);
       CHECK(rx_msg.args.set_pin_pwm.pin < NUM_PINS);
       CHECK(rx_msg.args.set_pin_pwm.pwm_num < NUM_PWM_MODULES);
       SetPinPwm(rx_msg.args.set_pin_pwm.pin, rx_msg.args.set_pin_pwm.pwm_num,
@@ -326,6 +344,7 @@ static BOOL MessageDone() {
       break;
 
     case SET_PWM_DUTY_CYCLE:
+      log_printf("CASE: %x, executing SET_PWM_DUTY_CYCLE", rx_msg.type);
       CHECK(rx_msg.args.set_pwm_duty_cycle.pwm_num < NUM_PWM_MODULES);
       SetPwmDutyCycle(rx_msg.args.set_pwm_duty_cycle.pwm_num,
                       rx_msg.args.set_pwm_duty_cycle.dc,
@@ -333,6 +352,7 @@ static BOOL MessageDone() {
       break;
 
     case SET_PWM_PERIOD:
+      log_printf("CASE: %x, executing SET_PWM_PERIOD", rx_msg.type);
       CHECK(rx_msg.args.set_pwm_period.pwm_num < NUM_PWM_MODULES);
       SetPwmPeriod(rx_msg.args.set_pwm_period.pwm_num,
                    rx_msg.args.set_pwm_period.period,
@@ -528,6 +548,7 @@ static BOOL MessageDone() {
     // Call Echo() if the message is to be echoed back.
 
     default:
+      log_printf("\x1b[31mUNRECOGNIZED TYPE RECEIVED: %x\x1b[32m", rx_msg.type);
       return FALSE;
   }
   return TRUE;
@@ -538,6 +559,12 @@ BOOL AppProtocolHandleIncoming(const BYTE* data, UINT32 data_len) {
   if (state != STATE_OPEN) {
     log_printf("Shouldn't get data after close!");
     return FALSE;
+  }
+
+  log_printf("INCOMING DATA: %lu bytes", data_len);
+  int i;
+  for (i = 0; i < data_len; i++) {
+      log_printf("%d: %x", i, *(data+i));
   }
 
   while (data_len > 0) {

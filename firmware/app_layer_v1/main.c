@@ -106,6 +106,7 @@ void AppCallback(const void* data, UINT32 data_len, int_or_ptr_t arg) {
 
 int main() {
   log_init();
+  log_printf("\x1b[40m\x1b[37m");
   log_printf("***** Hello from app-layer! *******");
 
   SoftReset();
