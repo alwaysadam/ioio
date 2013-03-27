@@ -224,17 +224,26 @@ class IOIOProtocol {
 		endBatch();
 	}
 	
-	synchronized public void setBitPattern(int pin, boolean level)
+	synchronized public void setBitPattern(int pin, boolean level, int frequency,
+			boolean inversion, int repeatNum, int repeatDelay, String bitString)
 			throws IOException {
 		beginBatch();
-		String bitString = "110101";
+		//String bitString = "110101";
+		int bitSize = bitString.length();
+		
+		int freq_hi = (frequency >> 8);
+		int freq_lo = (frequency & 0xFF);
+		int repeatDelay_hi = (repeatDelay >> 8);
+		int repeatDelay_lo = (repeatDelay & 0xFF);
 		
 		writeByte(SET_BIT_PATTERN); 			//COMMAND - SET_BIT_PATTERN
-		writeByte(1);  							//Inversion
-		writeByte(2);							//Frequency
-		writeByte(3);							//Repeat #
-		writeByte(4);							//Repeat delay
-		writeByte(bitString.length());			//# of bits (0 to 255)
+		writeByte(freq_hi);  					//Frequency
+		writeByte(freq_lo);
+		writeByte(inversion ? 1 : 0);			//Inversion
+		writeByte(repeatNum);					//Repeat #
+		writeByte(repeatDelay_hi);					//Repeat delay
+		writeByte(repeatDelay_lo);
+		writeByte(bitSize);						//# of bits (0 to 255)
 		for (int i = 0; i < bitSize; ++i) {		//Each bit, one at a time (so inefficient!)
 			writeByte(Integer.parseInt(bitString.substring(i,i+1)));
 		}

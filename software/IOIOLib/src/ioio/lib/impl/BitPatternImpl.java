@@ -41,16 +41,18 @@ class BitPatternImpl extends AbstractPin implements BitPattern {
 		value_ = startValue;
 	}
 
-	@Override
-	synchronized public void write(boolean val) throws ConnectionLostException {
+	
+	synchronized public void write(boolean val, int f, boolean i, 
+			int rn, int rd, String bstring) throws ConnectionLostException {
 		checkState();
 		if (val != value_) {
 			try {
-				ioio_.protocol_.setBitPattern(pinNum_, val);
+				ioio_.protocol_.setBitPattern(pinNum_, val, f, i, rn, rd, bstring);
 				value_ = val;
 			} catch (IOException e) {
 				throw new ConnectionLostException(e);
 			}
 		}
 	}
+
 }

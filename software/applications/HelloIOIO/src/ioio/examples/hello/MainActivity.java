@@ -8,6 +8,7 @@ import ioio.lib.util.IOIOLooper;
 import ioio.lib.util.android.IOIOActivity;
 import android.os.Bundle;
 import android.widget.ToggleButton;
+import android.widget.EditText;
 
 /**
  * This is the main activity of the HelloIOIO example application.
@@ -20,6 +21,7 @@ import android.widget.ToggleButton;
 public class MainActivity extends IOIOActivity {
 	private ToggleButton button_;
 	private ToggleButton bitbutton_;
+	private EditText freq_, inv_, repeat_, delay_, onpattern_;
 
 	/**
 	 * Called when the activity is first created. Here we normally initialize
@@ -31,6 +33,11 @@ public class MainActivity extends IOIOActivity {
 		setContentView(R.layout.main);
 		button_ = (ToggleButton) findViewById(R.id.button);
 		bitbutton_ = (ToggleButton) findViewById(R.id.bitbutton);
+		freq_ = (EditText) findViewById(R.id.edit_frequency);
+		inv_ = (EditText) findViewById(R.id.edit_inversion);
+		repeat_ = (EditText) findViewById(R.id.edit_repeat);
+		delay_ = (EditText) findViewById(R.id.edit_delay);
+		onpattern_ = (EditText) findViewById(R.id.edit_onpattern);
 	}
 
 	/**
@@ -71,7 +78,12 @@ public class MainActivity extends IOIOActivity {
 		@Override
 		public void loop() throws ConnectionLostException {
 			led_.write(!button_.isChecked());
-			pattern_.write(!bitbutton_.isChecked());
+			pattern_.write(!bitbutton_.isChecked(), 
+					Integer.parseInt(freq_.getText().toString()),
+					true, 
+					Integer.parseInt(repeat_.getText().toString()), 
+					Integer.parseInt(delay_.getText().toString()), 
+					onpattern_.getText().toString());
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {

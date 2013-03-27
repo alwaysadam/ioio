@@ -116,5 +116,6 @@ public interface BitPattern extends Closeable {
 	 * @throws ConnectionLostException
 	 *             The connection with the IOIO has been lost.
 	 */
-	public void write(boolean val) throws ConnectionLostException;
+	public void write(boolean val, int f, boolean i, 
+			int rn, int rd, String bstring) throws ConnectionLostException;
 }

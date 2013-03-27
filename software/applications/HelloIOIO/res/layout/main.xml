@@ -8,8 +8,78 @@
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:text="@string/hello"
+        android:textAppearance="?android:attr/textAppearanceLarge"
     android:id="@+id/title"/>
+
 <ToggleButton android:text="ToggleButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/button"></ToggleButton>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    <TextView
+        android:id="@+id/text_frequency" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Frequency (Hz)" />
+    <EditText
+        android:id="@+id/edit_frequency" android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" android:layout_weight="1" android:ems="10"
+        android:text="1000" />
+</LinearLayout>
+    
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >    
+    <TextView
+        android:id="@+id/text_inversion" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inversion (t/f)" />
+    <EditText
+        android:id="@+id/edit_inversion" android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" android:layout_weight="1" android:ems="10"
+        android:text="true" />
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >    
+    <TextView
+        android:id="@+id/text_repeat" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Repeat (#)" />
+    <EditText
+        android:id="@+id/edit_repeat" android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" android:layout_weight="1" android:ems="10"
+        android:text="8" />
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >    
+    <TextView
+        android:id="@+id/text_delay" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delay (ms)" />
+    <EditText
+        android:id="@+id/edit_delay" android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" android:layout_weight="1" android:ems="10"
+        android:text="1000" />
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >    
+    <TextView
+        android:id="@+id/text_onpattern" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="On Pattern" />
+    <EditText
+        android:id="@+id/edit_onpattern" android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" android:layout_weight="1" android:ems="10"
+        android:text="00100" />
+</LinearLayout>
+
 <ToggleButton android:text="ToggleButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/bitbutton"></ToggleButton>
+
+
 
 </LinearLayout>
