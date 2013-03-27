@@ -72,11 +72,12 @@ typedef struct PACKED {
 
 // set bitpattern out
 typedef struct PACKED {
-  BYTE bitstring;
-  //BYTE inversion;
-  //BYTE frequency;
-  //BYTE times;
-  //BYTE tdelay;
+  BYTE inversion;
+  BYTE frequency;
+  BYTE times;
+  BYTE tdelay;
+  BYTE bitSize;
+  BYTE bitString[0];
 } SET_BITPATTERN_OUT_ARGS;
 
 // report digital in status

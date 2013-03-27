@@ -178,6 +178,9 @@ static inline BYTE IncomingVarArgSize(const INCOMING_MESSAGE* msg) {
     case I2C_WRITE_READ:
       return msg->args.i2c_write_read.write_size;
 
+    case SET_BITPATTERN_OUT:
+      return msg->args.set_bitpattern_out.bitSize;
+
     // BOOKMARK(add_feature): Add more cases here if incoming message has variable args.
     default:
       return 0;
@@ -298,10 +301,10 @@ static BOOL MessageDone() {
       //              rx_msg.args.set_bitpattern_out.frequency,
       //              rx_msg.args.set_bitpattern_out.times,
       //              rx_msg.args.set_bitpattern_out.tdelay);
-      rx_msg.args.set_bitpattern_out.bitstring = 100;
+      rx_msg.args.set_bitpattern_out.inversion = 1;
       //rx_msg.args.set_bitpattern_out.inversion = 1;
       log_printf("\x1b[32mSET_BITPATTERN ARGS: ");
-      log_printf("bitpattern: %d", rx_msg.args.set_bitpattern_out.bitstring);
+      //log_printf("bitpattern: %d", rx_msg.args.set_bitpattern_out.bitstring);
       //log_printf("inversion: %d", rx_msg.args.set_bitpattern_out.inversion);
       //log_printf("frequency: %d", rx_msg.args.set_bitpattern_out.frequency);
       //log_printf("# times: %d", rx_msg.args.set_bitpattern_out.times);

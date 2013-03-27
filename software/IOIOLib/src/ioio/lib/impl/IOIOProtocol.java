@@ -227,8 +227,17 @@ class IOIOProtocol {
 	synchronized public void setBitPattern(int pin, boolean level)
 			throws IOException {
 		beginBatch();
-		writeByte(SET_BIT_PATTERN);
-		writeByte(pin << 2 | (level ? 1 : 0));
+		String bitString = "110101";
+		
+		writeByte(SET_BIT_PATTERN); 			//COMMAND - SET_BIT_PATTERN
+		writeByte(1);  							//Inversion
+		writeByte(2);							//Frequency
+		writeByte(3);							//Repeat #
+		writeByte(4);							//Repeat delay
+		writeByte(bitString.length());			//# of bits (0 to 255)
+		for (int i = 0; i < bitSize; ++i) {		//Each bit, one at a time (so inefficient!)
+			writeByte(Integer.parseInt(bitString.substring(i,i+1)));
+		}
 		endBatch();
 	}
 
