@@ -301,27 +301,15 @@ static BOOL MessageDone() {
       //              rx_msg.args.set_bitpattern_out.frequency,
       //              rx_msg.args.set_bitpattern_out.times,
       //              rx_msg.args.set_bitpattern_out.tdelay);
-      rx_msg.args.set_bitpattern_out.inversion = 1;
-      //rx_msg.args.set_bitpattern_out.inversion = 1;
-      log_printf("\x1b[32mSET_BITPATTERN ARGS: ");
-      //log_printf("bitpattern: %d", rx_msg.args.set_bitpattern_out.bitstring);
-      //log_printf("inversion: %d", rx_msg.args.set_bitpattern_out.inversion);
-      //log_printf("frequency: %d", rx_msg.args.set_bitpattern_out.frequency);
-      //log_printf("# times: %d", rx_msg.args.set_bitpattern_out.times);
-      //log_printf("repeat delay: %d", rx_msg.args.set_bitpattern_out.tdelay);
-
-      //log_printf(rx_msg.args.set_bitpattern_out.bitstring);
-      //log_printf(rx_msg.args.set_bitpattern_out.inversion);
-      //log_printf(rx_msg.args.set_bitpattern_out.frequency);
-      //log_printf(rx_msg.args.set_bitpattern_out.times);
-      //log_printf(rx_msg.args.set_bitpattern_out.tdelay);
-      log_printf("\x1b[37m");
+      log_printf("frequency: %d", rx_msg.args.set_bitpattern_out.frequency);
+      log_printf("inversion: %d", rx_msg.args.set_bitpattern_out.inversion);
+      log_printf("# times: %d", rx_msg.args.set_bitpattern_out.times);
+      log_printf("repeat delay: %d", rx_msg.args.set_bitpattern_out.tdelay);
+      log_printf("bitpattern: %d", *rx_msg.args.set_bitpattern_out.bitString);
       repeatPattern('0101', 0, 1000, 2, 1000);
-      log_printf("\x1b[32mSET_BITPATTERN command processed successfully\x1b[37m");
       break;
 
     case SET_PIN_DIGITAL_IN:
-      log_printf("CASE: %x, executing SET_PIN_DIGITAL_IN", rx_msg.type);
       CHECK(rx_msg.args.set_pin_digital_in.pin < NUM_PINS);
       CHECK(rx_msg.args.set_pin_digital_in.pull < 3);
       SetPinDigitalIn(rx_msg.args.set_pin_digital_in.pin, rx_msg.args.set_pin_digital_in.pull);
@@ -339,7 +327,6 @@ static BOOL MessageDone() {
       break;
 
     case SET_PIN_PWM:
-      log_printf("CASE: %x, executing SET_PIN_PWM", rx_msg.type);
       CHECK(rx_msg.args.set_pin_pwm.pin < NUM_PINS);
       CHECK(rx_msg.args.set_pin_pwm.pwm_num < NUM_PWM_MODULES);
       SetPinPwm(rx_msg.args.set_pin_pwm.pin, rx_msg.args.set_pin_pwm.pwm_num,
@@ -347,7 +334,6 @@ static BOOL MessageDone() {
       break;
 
     case SET_PWM_DUTY_CYCLE:
-      log_printf("CASE: %x, executing SET_PWM_DUTY_CYCLE", rx_msg.type);
       CHECK(rx_msg.args.set_pwm_duty_cycle.pwm_num < NUM_PWM_MODULES);
       SetPwmDutyCycle(rx_msg.args.set_pwm_duty_cycle.pwm_num,
                       rx_msg.args.set_pwm_duty_cycle.dc,
@@ -355,7 +341,6 @@ static BOOL MessageDone() {
       break;
 
     case SET_PWM_PERIOD:
-      log_printf("CASE: %x, executing SET_PWM_PERIOD", rx_msg.type);
       CHECK(rx_msg.args.set_pwm_period.pwm_num < NUM_PWM_MODULES);
       SetPwmPeriod(rx_msg.args.set_pwm_period.pwm_num,
                    rx_msg.args.set_pwm_period.period,

@@ -231,10 +231,10 @@ class IOIOProtocol {
 		//String bitString = "110101";
 		int bitSize = bitString.length();
 		
-		int freq_hi = (frequency >> 8);
-		int freq_lo = (frequency & 0xFF);
-		int repeatDelay_hi = (repeatDelay >> 8);
-		int repeatDelay_lo = (repeatDelay & 0xFF);
+		int freq_lo = (frequency >> 8);			//LSB first
+		int freq_hi = (frequency & 0xFF);
+		int repeatDelay_lo = (repeatDelay >> 8);
+		int repeatDelay_hi = (repeatDelay & 0xFF);
 		
 		writeByte(SET_BIT_PATTERN); 			//COMMAND - SET_BIT_PATTERN
 		writeByte(freq_hi);  					//Frequency

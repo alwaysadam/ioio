@@ -111,7 +111,19 @@ int main() {
 
   SoftReset();
   ConnectionInit();
+  long loopcount = 0;
+  int oldstate = 0;
+  int llcount = 0;
   while (1) {
+
+    loopcount++;
+    if (loopcount == 100000 | oldstate != state) {
+        loopcount = 0;
+        oldstate = state;
+        llcount ++;
+        log_printf("STATE: %d  COUNT: %d", state, llcount);
+    }
+      
     ConnectionTasks();
     switch (state) {
       case STATE_INIT:
