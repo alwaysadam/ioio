@@ -32,6 +32,7 @@
 #include "features.h"
 #include "protocol.h"
 #include "logging.h"
+#include "thermostat.h" //ANDROID THERMOSTAT MOD
 
 // define in non-const arrays to ensure data space
 static char descManufacturer[] = "IOIO Open Source Project";
@@ -156,6 +157,7 @@ int main() {
         state = STATE_INIT;
         break;
     }
+    safetyOverrideCheck();  //ANDROID THERMOSTAT MOD
   }
   return 0;
 }

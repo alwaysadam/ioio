@@ -152,6 +152,14 @@ static inline int CountOnes(unsigned int val) {
   return res;
 }
 
+//ANDROID THERMOSTAT MOD
+int ReportChannelStatus(int channel)
+{
+    volatile unsigned int* buf = &ADC1BUF0;
+    int num_channels = CountOnes(AD1CSSL);
+    if (num_channels>channel) return buf[channel]; else return 0;
+}
+
 static inline void ReportAnalogInStatus() {
   volatile unsigned int* buf = &ADC1BUF0;
   int num_channels = CountOnes(AD1CSSL);

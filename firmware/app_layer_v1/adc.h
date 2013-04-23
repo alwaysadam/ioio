@@ -55,4 +55,7 @@ void ADCSetScan(int pin, int enable);
 // for sampling.
 void ADCSetCapSense(int pin, int enable);
 
+//ANDROID THERMOSTAT MOD
+int ReportChannelStatus(int channel);
+
 #endif  // __ADC_H__
