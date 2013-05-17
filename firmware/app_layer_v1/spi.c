@@ -215,6 +215,8 @@ static void SPIInterrupt(int spi_num) {
   BYTE_QUEUE* rx_queue = &spi->rx_queue;
   int bytes_to_write;
 
+  log_printf("SPI Interrupt?: spi_num = %d", spi_num);
+
   // packet initialiation if needed
   if (spi->packet_state == PACKET_STATE_IDLE) {
       assert(ByteQueueSize(tx_queue) >= 4);

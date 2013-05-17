@@ -214,6 +214,7 @@ void AppProtocolInit(CHANNEL_HANDLE h) {
 void AppProtocolSendMessage(const OUTGOING_MESSAGE* msg) {
   if (state != STATE_OPEN) return;
   BYTE prev = SyncInterruptLevel(1);
+  //log_printf("SENDING MESSAGE: msg = %x, len = %d", &msg, OutgoingMessageLength(msg));
   ByteQueuePushBuffer(&tx_queue, (const BYTE*) msg, OutgoingMessageLength(msg));
   SyncInterruptLevel(prev);
 }
@@ -221,6 +222,7 @@ void AppProtocolSendMessage(const OUTGOING_MESSAGE* msg) {
 void AppProtocolSendMessageWithVarArg(const OUTGOING_MESSAGE* msg, const void* data, int size) {
   if (state != STATE_OPEN) return;
   BYTE prev = SyncInterruptLevel(1);
+  //log_printf("SENDING VAR MESSAGE: msg = %x, len = %d", &msg, OutgoingMessageLength(msg));
   ByteQueuePushBuffer(&tx_queue, (const BYTE*) msg, OutgoingMessageLength(msg));
   ByteQueuePushBuffer(&tx_queue, data, size);
   SyncInterruptLevel(prev);
@@ -231,6 +233,7 @@ void AppProtocolSendMessageWithVarArgSplit(const OUTGOING_MESSAGE* msg,
                                            const void* data2, int size2) {
   if (state != STATE_OPEN) return;
   BYTE prev = SyncInterruptLevel(1);
+  //log_printf("SENDING ARG MESSAGE: msg = %x, len = %d", &msg, OutgoingMessageLength(msg));
   ByteQueuePushBuffer(&tx_queue, (const BYTE*) msg, OutgoingMessageLength(msg));
   ByteQueuePushBuffer(&tx_queue, data1, size1);
   ByteQueuePushBuffer(&tx_queue, data2, size2);
@@ -271,7 +274,8 @@ static void Echo() {
 
 static BOOL MessageDone() {
   // TODO: check pin capabilities
-  switch (rx_msg.type) {
+    log_printf("MESSAGE RECEIVED: rx_msg.type = %x", rx_msg.type);
+    switch (rx_msg.type) {
     case HARD_RESET:
       CHECK(rx_msg.args.hard_reset.magic == IOIO_MAGIC);
       HardReset();
@@ -350,6 +354,7 @@ static BOOL MessageDone() {
 
     case SET_PIN_ANALOG_IN:
       CHECK(rx_msg.args.set_pin_analog_in.pin < NUM_PINS);
+      log_printf("SET_PIN_ANALOG_IN: %d", rx_msg.args.set_pin_analog_in.pin);
       SetPinAnalogIn(rx_msg.args.set_pin_analog_in.pin);
       break;
 
@@ -460,6 +465,7 @@ static BOOL MessageDone() {
 
     case SET_ANALOG_IN_SAMPLING:
       CHECK(rx_msg.args.set_analog_pin_sampling.pin < NUM_PINS);
+      log_printf("SET_ANALOG_IN_SAMPLING: %d", rx_msg.args.set_analog_pin_sampling.pin);
       ADCSetScan(rx_msg.args.set_analog_pin_sampling.pin,
                  rx_msg.args.set_analog_pin_sampling.enable);
       break;

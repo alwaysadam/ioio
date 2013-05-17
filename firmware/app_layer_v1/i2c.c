@@ -231,6 +231,8 @@ static void MI2CInterrupt(int i2c_num) {
   I2C_STATE* i2c = i2c_states + i2c_num;
   volatile I2CREG* reg = i2c_reg[i2c_num];
 
+  log_printf("I2C Interrupt?: i2c_num = %d", i2c_num);
+
   Set_MI2CIF[i2c_num](0);  // clear interrupt
   switch (i2c->message_state) {
     case STATE_START:

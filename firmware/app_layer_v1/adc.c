@@ -40,6 +40,8 @@
 #include "protocol.h"
 #include "pins.h"
 
+#define ADC_FREQ 2 //Hz (range 1 to 1000), how fast to send samples across
+
 static unsigned int analog_scan_bitmask;
 static int analog_scan_num_channels;
 // Bit k is set iff channel k is marked for capsense reporting.
@@ -53,6 +55,8 @@ static uint16_t capsense_current = 1;
 // Set to true before triggering a sample to designate this is a cap-sense
 // sample.
 static bool capsense_sample = false;
+
+static int ADC_sample_counter = 0; //Use to moderate how many samples are sent
 
 // we need to generate a priority 1 interrupt in order to send a message
 // containing ADC-captured data.
@@ -162,13 +166,16 @@ int ReportChannelStatus(int channel)
 
 static inline void ReportAnalogInStatus() {
   volatile unsigned int* buf = &ADC1BUF0;
+
   int num_channels = CountOnes(AD1CSSL);
   int i;
+
   BYTE var_arg[16 / 4 * 5];
   int var_arg_pos = 0;
   int group_header_pos;
   int pos_in_group;
   int value;
+
   OUTGOING_MESSAGE msg;
   msg.type = REPORT_ANALOG_IN_STATUS;
   for (i = 0; i < num_channels; i++) {
@@ -182,7 +189,12 @@ static inline void ReportAnalogInStatus() {
     var_arg[group_header_pos] |= (value & 3) << (pos_in_group * 2);  // two LSb to group header
     var_arg[var_arg_pos++] = value >> 2;  // eight MSb to channel byte
   }
-  AppProtocolSendMessageWithVarArg(&msg, var_arg, var_arg_pos);
+  if (!ADC_sample_counter) {
+      log_printf("SENDING: %x  (%0.1fC)", value, (value - 100)*0.579);
+      AppProtocolSendMessageWithVarArg(&msg, var_arg, var_arg_pos);
+      ADC_sample_counter = 1000 / ADC_FREQ;
+  }
+  else { ADC_sample_counter--; }
 }
 
 static inline void ReportCapSense() {

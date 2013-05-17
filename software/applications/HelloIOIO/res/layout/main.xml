@@ -78,7 +78,12 @@
         android:text="00100" />
 </LinearLayout>
 
-<ToggleButton android:text="ToggleButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/bitbutton"></ToggleButton>
+<LinearLayout android:layout_width="fill_parent" android:layout_height="0px" android:orientation="horizontal" android:layout_weight="20">
+    <ToggleButton android:text="ToggleButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/bitbutton" android:layout_weight="1"></ToggleButton>
+    <TextView android:id="@+id/text_onpattern" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:layout_weight="70"/>
+    <Button android:text="Quit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/quitbutton" android:layout_weight="2"></Button>	
+</LinearLayout>
+
 
 
 

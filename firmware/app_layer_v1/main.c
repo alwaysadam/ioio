@@ -33,6 +33,7 @@
 #include "protocol.h"
 #include "logging.h"
 #include "thermostat.h" //ANDROID THERMOSTAT MOD
+#include "adc.h"
 
 // define in non-const arrays to ensure data space
 static char descManufacturer[] = "IOIO Open Source Project";
@@ -107,6 +108,7 @@ void AppCallback(const void* data, UINT32 data_len, int_or_ptr_t arg) {
 
 int main() {
   log_init();
+  ADCInit();
   log_printf("\x1b[40m\x1b[37m");
   log_printf("***** Hello from app-layer! *******");
 
@@ -115,6 +117,7 @@ int main() {
   long loopcount = 0;
   int oldstate = 0;
   int llcount = 0;
+  int k = 0;
   while (1) {
 
     loopcount++;
@@ -123,6 +126,7 @@ int main() {
         oldstate = state;
         llcount ++;
         log_printf("STATE: %d  COUNT: %d", state, llcount);
+        safetyOverrideCheck();  //ANDROID THERMOSTAT MOD
     }
       
     ConnectionTasks();
@@ -157,7 +161,7 @@ int main() {
         state = STATE_INIT;
         break;
     }
-    safetyOverrideCheck();  //ANDROID THERMOSTAT MOD
+    
   }
   return 0;
 }
